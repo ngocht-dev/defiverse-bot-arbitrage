@@ -16,6 +16,28 @@
           "0xaa01a32965a072082dac7169b4c9457ce1508be5000200000000000000000001",
           "0xe815154dc2bb9cceee8054b01e99850b2a8c0d1e000200000000000000000002"
         ]
+      },
+      {
+        "minProfit": 2,
+        "milestone": 0.5,
+        "minAmount": 0.1,
+        "symbols": "GDT-WOAS-USDC",
+        "pairs": [
+          "0xaa01a32965a072082dac7169b4c9457ce1508be5000200000000000000000001",
+          "0xe815154dc2bb9cceee8054b01e99850b2a8c0d1e000200000000000000000002",
+          "0x26cdeaf40cf9a83bb7436b560d150c1d5d98b87900020000000000000000000a"
+        ]
+      },
+      {
+        "minProfit": 2,
+        "milestone": 0.5,
+        "minAmount": 0.1,
+        "symbols": "WOAS-USDC-GDT",
+        "pairs": [
+          "0xe815154dc2bb9cceee8054b01e99850b2a8c0d1e000200000000000000000002",
+          "0x26cdeaf40cf9a83bb7436b560d150c1d5d98b87900020000000000000000000a",
+          "0xaa01a32965a072082dac7169b4c9457ce1508be5000200000000000000000001"
+        ]
       }
     ]
   }

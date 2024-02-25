@@ -43,9 +43,10 @@ class TriangleArbitrage extends Arbitrage {
       const pool1 = await getPoolByPoolId(pair.pairs[0]);
       const pool2 = await getPoolByPoolId(pair.pairs[1]);
       const pool3 = await getPoolByPoolId(pair.pairs[2]);
-      const [symbol1, symbol2, symbol3] = pair.symbols.split('-');
-      const token1 = pool1.tokens[this.getAssetIndex(pool1, symbol1)];
 
+      const [symbol1, symbol2, symbol3] = pair.symbols.split('-');
+      
+      const token1 = pool1.tokens[this.getAssetIndex(pool1, symbol1)];
       const token2 = pool2.tokens[this.getAssetIndex(pool2, symbol2)];
       const token3 = pool3.tokens[this.getAssetIndex(pool3, symbol3)];
 
@@ -92,7 +93,11 @@ class TriangleArbitrage extends Arbitrage {
 
       const config = await configurationService.getConfig();
 
-      if (profit.isProfitable && parseFloat(profit.profit) > config.minProfit) {
+      const isGreatThanMinProfit = new BigNumber(profit.profit).gte(
+        pair.minProfit,
+      );
+
+      if (profit.isProfitable && isGreatThanMinProfit) {
         logger.info(
           `Expected: Pair ${token1.symbol}-${token2.symbol} has profit ${profit.profit}`,
         );
@@ -198,7 +203,7 @@ class TriangleArbitrage extends Arbitrage {
         isProfitable: false,
         profits: {},
         profit: '0',
-        amount: '0'
+        amount: '0',
       };
     }
   }
