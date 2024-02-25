@@ -4,7 +4,7 @@
     "PAIRS": []
   },
   "TRIANGLE_ARBITRAGE": {
-    "AMOUNT": "100000",
+    "AMOUNT": "10000000000000000000",
     "PAIRS": [
       {
         "symbols": "USDC-GDT-WOAS",
