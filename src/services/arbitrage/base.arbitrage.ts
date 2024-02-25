@@ -16,6 +16,9 @@ export type PairPool = {
 
 export type PairType = {
   symbols: string;
+  minProfit: number;
+  minAmount: number;
+  milestone: number;
   pairs: Array<string>;
 };
 export abstract class Arbitrage {
@@ -67,7 +70,7 @@ export abstract class Arbitrage {
     if (pairs.length == 0) {
       return;
     }
-    
+
     this.flag = true;
     await this.handleProcess();
   }

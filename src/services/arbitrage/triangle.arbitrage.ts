@@ -6,6 +6,7 @@ import {
   SwapType,
   Swaps,
 } from '@defiverse/balancer-sdk';
+import BigNumber from 'bignumber.js';
 import lockfile from 'lockfile';
 import { sum } from 'lodash';
 import { configurationService, logger } from '@/services/index.service';
@@ -44,6 +45,7 @@ class TriangleArbitrage extends Arbitrage {
       const pool3 = await getPoolByPoolId(pair.pairs[2]);
       const [symbol1, symbol2, symbol3] = pair.symbols.split('-');
       const token1 = pool1.tokens[this.getAssetIndex(pool1, symbol1)];
+
       const token2 = pool2.tokens[this.getAssetIndex(pool2, symbol2)];
       const token3 = pool3.tokens[this.getAssetIndex(pool3, symbol3)];
 
@@ -54,7 +56,9 @@ class TriangleArbitrage extends Arbitrage {
             poolId: pool1.id,
             assetInIndex: 0,
             assetOutIndex: 1,
-            amount: CONFIG.TRIANGLE_ARBITRAGE.AMOUNT,
+            amount: new BigNumber(pair.minAmount)
+              .multipliedBy(new BigNumber(10).pow(token1.decimals))
+              .toString(),
             userData: '0x',
           },
           {
@@ -74,29 +78,32 @@ class TriangleArbitrage extends Arbitrage {
         ],
         assets: [token1.address, token2.address, token3.address],
         funds: {
-          sender: '0x0000000000000000000000000000000000000000',
-          recipient: '0x0000000000000000000000000000000000000000',
           fromInternalBalance: false,
+          recipient: signerAddress,
+          sender: signerAddress,
           toInternalBalance: false,
         },
+        milestone: new BigNumber(pair.milestone)
+          .multipliedBy(new BigNumber(10).pow(token1.decimals))
+          .toString(),
       };
 
       const profit = await this.getProfit(data);
 
       const config = await configurationService.getConfig();
 
-      if (
-        profit.isProfitable &&
-        parseFloat(profit.profits[token1.address]) > config.minProfit
-      ) {
+      if (profit.isProfitable && parseFloat(profit.profit) > config.minProfit) {
         logger.info(
-          `Expected: Pair ${token1.symbol}-${token2.symbol} has profit ${profit.profits[token1.address]}`,
+          `Expected: Pair ${token1.symbol}-${token2.symbol} has profit ${profit.profit}`,
         );
-        const tx = await this.trade(data);
+        const tx = await this.trade({
+          ...data,
+          profit,
+        });
         if (tx) {
           await this.recordTransaction(
             `${token1.symbol}-${token2.symbol}`,
-            profit.profits[token1.address],
+            profit.profit,
             tx,
           );
         }
@@ -125,40 +132,73 @@ class TriangleArbitrage extends Arbitrage {
     assets,
     swaps,
     funds,
+    milestone,
   }: {
     kind: SwapType;
     swaps: BatchSwapStep[];
     assets: Array<string>;
     funds: Object;
-  }): Promise<QuerySimpleFlashSwapResponse> {
+    milestone: string;
+  }): Promise<
+    QuerySimpleFlashSwapResponse & { profit: string; amount: string }
+  > {
     try {
-      const deltas = await balancer.contracts.vault.callStatic.queryBatchSwap(
-        kind,
-        swaps,
-        assets,
-        funds as any,
-      );
-
-      const profits = {
-        [assets[0]]: this.deltaToExpectedProfit(deltas[0].toString()).toString(),
-        [assets[1]]: this.deltaToExpectedProfit(deltas[1].toString()).toString(),
-        [assets[2]]: this.deltaToExpectedProfit(deltas[2].toString()).toString(),
+      let results = {
+        profit: 0,
+        profits: {},
       };
 
+      const steps = [...Array(CONFIG.TRIANGLE_ARBITRAGE.RETRY).keys()];
+
+      for (const step of steps) {
+        swaps[0].amount = new BigNumber(swaps[0].amount)
+          .plus(new BigNumber(milestone).multipliedBy(step))
+          .toString();
+
+        const deltas = await balancer.contracts.vault.callStatic.queryBatchSwap(
+          kind,
+          swaps,
+          assets,
+          funds as any,
+        );
+
+        const profits = {
+          [assets[0]]: this.deltaToExpectedProfit(
+            deltas[0].toString(),
+          ).toString(),
+          [assets[1]]: this.deltaToExpectedProfit(
+            deltas[1].toString(),
+          ).toString(),
+          [assets[2]]: this.deltaToExpectedProfit(
+            deltas[2].toString(),
+          ).toString(),
+        };
+
+        const profit = this.calcProfit([
+          profits[assets[0]],
+          profits[assets[1]],
+          profits[assets[2]],
+        ]);
+
+        if (profit > results.profit) {
+          results.profit = profit;
+          results.profits = profits;
+        }
+      }
+
       return {
-        profits,
-        isProfitable:
-          this.calcProfit([
-            profits[assets[0]],
-            profits[assets[1]],
-            profits[assets[2]],
-          ]) > 0,
+        profits: results.profits,
+        isProfitable: results.profit > 0,
+        profit: String(results.profit),
+        amount: swaps[0].amount,
       };
     } catch (error) {
       logger.error(error, `${this.name}.getProfit`);
       return {
         isProfitable: false,
         profits: {},
+        profit: '0',
+        amount: '0'
       };
     }
   }
@@ -167,10 +207,12 @@ class TriangleArbitrage extends Arbitrage {
     kind,
     assets,
     swaps,
+    profit,
   }: {
     kind: SwapType;
     swaps: BatchSwapStep[];
     assets: Array<string>;
+    profit: any;
   }) {
     try {
       const encodeData = Swaps.encodeBatchSwap({
@@ -183,7 +225,7 @@ class TriangleArbitrage extends Arbitrage {
           sender: signerAddress,
           toInternalBalance: false,
         },
-        limits: [CONFIG.TRIANGLE_ARBITRAGE.AMOUNT, '0', '0'], // +ve for max to send, -ve for min to receive
+        limits: [profit.amount, '0', '0'], // +ve for max to send, -ve for min to receive
         deadline: '999999999999999999', // Infinity
       });
       const receipt = await this.sendTransaction(encodeData);

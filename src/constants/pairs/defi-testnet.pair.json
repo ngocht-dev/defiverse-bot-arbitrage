@@ -4,9 +4,12 @@
     "PAIRS": []
   },
   "TRIANGLE_ARBITRAGE": {
-    "AMOUNT": "10000000000000000000",
+    "RETRY": 5,
     "PAIRS": [
       {
+        "minProfit": 2,
+        "milestone": 0.5,
+        "minAmount": 0.1,
         "symbols": "USDC-GDT-WOAS",
         "pairs": [
           "0x26cdeaf40cf9a83bb7436b560d150c1d5d98b87900020000000000000000000a",
