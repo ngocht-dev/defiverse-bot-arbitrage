@@ -1,0 +1,10 @@
+{
+  "PAIR_ARBITRAGE": {
+    "AMOUNT": "10000",
+    "PAIRS": []
+  },
+  "TRIANGLE_ARBITRAGE": {
+    "AMOUNT": "100",
+    "PAIRS": []
+  }
+}

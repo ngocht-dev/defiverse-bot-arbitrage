@@ -10,7 +10,11 @@ import lockfile from 'lockfile';
 import { sum } from 'lodash';
 import { configurationService, logger } from '@/services/index.service';
 import { Arbitrage, PairType } from './base.arbitrage';
-import { balancer, getPoolByPoolId, signerAddress } from '@/services/balancer.service';
+import {
+  balancer,
+  getPoolByPoolId,
+  signerAddress,
+} from '@/services/balancer.service';
 import CONFIG from '@/services/config';
 
 class TriangleArbitrage extends Arbitrage {
@@ -40,8 +44,9 @@ class TriangleArbitrage extends Arbitrage {
       const pool3 = await getPoolByPoolId(pair.pairs[2]);
       const [symbol1, symbol2, symbol3] = pair.symbols.split('-');
       const token1 = pool1.tokens[this.getAssetIndex(pool1, symbol1)];
-      const token2 = pool1.tokens[this.getAssetIndex(pool1, symbol2)];
-      const token3 = pool1.tokens[this.getAssetIndex(pool1, symbol3)];
+      const token2 = pool2.tokens[this.getAssetIndex(pool2, symbol2)];
+      const token3 = pool3.tokens[this.getAssetIndex(pool3, symbol3)];
+
       const data = {
         kind: SwapType.SwapExactIn,
         swaps: [
@@ -68,7 +73,14 @@ class TriangleArbitrage extends Arbitrage {
           },
         ],
         assets: [token1.address, token2.address, token3.address],
+        funds: {
+          sender: '0x0000000000000000000000000000000000000000',
+          recipient: '0x0000000000000000000000000000000000000000',
+          fromInternalBalance: false,
+          toInternalBalance: false,
+        },
       };
+
       const profit = await this.getProfit(data);
 
       const config = await configurationService.getConfig();
@@ -112,22 +124,25 @@ class TriangleArbitrage extends Arbitrage {
     kind,
     assets,
     swaps,
+    funds,
   }: {
     kind: SwapType;
     swaps: BatchSwapStep[];
     assets: Array<string>;
+    funds: Object;
   }): Promise<QuerySimpleFlashSwapResponse> {
     try {
-      const deltas = await balancer.swaps.queryBatchSwap({
-        assets,
+      const deltas = await balancer.contracts.vault.callStatic.queryBatchSwap(
         kind,
         swaps,
-      });
+        assets,
+        funds as any,
+      );
 
       const profits = {
-        [assets[0]]: this.deltaToExpectedProfit(deltas[0]).toString(),
-        [assets[1]]: this.deltaToExpectedProfit(deltas[1]).toString(),
-        [assets[2]]: this.deltaToExpectedProfit(deltas[2]).toString(),
+        [assets[0]]: this.deltaToExpectedProfit(deltas[0].toString()).toString(),
+        [assets[1]]: this.deltaToExpectedProfit(deltas[1].toString()).toString(),
+        [assets[2]]: this.deltaToExpectedProfit(deltas[2].toString()).toString(),
       };
 
       return {
@@ -140,7 +155,7 @@ class TriangleArbitrage extends Arbitrage {
           ]) > 0,
       };
     } catch (error) {
-      // logger.error(error, `${this.name}.getProfit`);
+      logger.error(error, `${this.name}.getProfit`);
       return {
         isProfitable: false,
         profits: {},

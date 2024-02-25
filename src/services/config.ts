@@ -1,4 +1,4 @@
-import config from '@/pairs.json';
+import { PAIRS } from '@/constants/pairs/pairs.constant';
 
 const validateField = (fieldName: string, value: string | number) => {
   if (!value) {
@@ -15,7 +15,7 @@ validateField('process.env.VAULT_SC_ADDRESS', process.env.VAULT_SC_ADDRESS);
 validateField('process.env.NETWORK', process.env.NETWORK);
 
 const CONFIG = {
-  ...config,
+  ...PAIRS[process.env.NETWORK],
   PORT: process.env.PORT,
   DB_URI: process.env.DB_URI,
   INIT_DB: process.env.INIT_DB,

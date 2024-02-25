@@ -63,6 +63,11 @@ export abstract class Arbitrage {
     }
     await lockfile.unlockSync(this.lockedFilePath);
 
+    const pairs = await this.getPairs();
+    if (pairs.length == 0) {
+      return;
+    }
+    
     this.flag = true;
     await this.handleProcess();
   }
