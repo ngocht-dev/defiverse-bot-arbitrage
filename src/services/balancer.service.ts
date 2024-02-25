@@ -4,21 +4,19 @@ import {
   BalancerSDK,
   BalancerSdkConfig,
   Network,
-} from '@balancer-labs/sdk';
+} from '@defiverse/balancer-sdk';
 import { ethers } from 'ethers';
-import CONFIG from './config';
+import CONFIG from '@/services/config';
+import { NETWORKS } from '@/constants/networks.constant';
+
+const network  = NETWORKS[CONFIG.NETWORK];
 
 const config: BalancerSdkConfig = {
-  network: Network.SEPOLIA,
-  rpcUrl: `https://sepolia.infura.io/v3/${CONFIG.INFURA}`,
+  network: network.CHAIN_ID,
+  rpcUrl: network.RPC_URL,
 };
 
 export const balancerVault = CONFIG.VAULT;
-
-// const config: BalancerSdkConfig = {
-//   network: Network.MAINNET,
-//   rpcUrl: 'http://127.0.0.1:8545',
-// };
 
 export const balancer = new BalancerSDK(config);
 export const signer = new ethers.Wallet(

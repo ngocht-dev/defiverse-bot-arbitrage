@@ -5,13 +5,13 @@ import {
   QuerySimpleFlashSwapResponse,
   SwapType,
   Swaps,
-} from '@balancer-labs/sdk';
+} from '@defiverse/balancer-sdk';
 import lockfile from 'lockfile';
-import { configurationService, logger } from '..';
-import { Arbitrage, PairType } from './arbitrage';
-import { balancer, getPoolByPoolId, signerAddress } from '../balancer.service';
-import CONFIG from '../config';
 import { sum } from 'lodash';
+import { configurationService, logger } from '@/services/index.service';
+import { Arbitrage, PairType } from './base.arbitrage';
+import { balancer, getPoolByPoolId, signerAddress } from '@/services/balancer.service';
+import CONFIG from '@/services/config';
 
 class TriangleArbitrage extends Arbitrage {
   protected lockedFilePath: string = 'triangle.arbitrage.lock';

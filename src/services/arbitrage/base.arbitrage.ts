@@ -2,13 +2,13 @@ import {
   BatchSwapStep,
   QuerySimpleFlashSwapResponse,
   SwapType,
-} from '@balancer-labs/sdk';
+} from '@defiverse/balancer-sdk';
 import { BytesLike } from 'ethers';
 import lockfile from 'lockfile';
-import { logger, telegramService } from '..';
-import { TransactionModel } from '../../models';
-import { balancerVault, signer } from '../balancer.service';
-import { sleep } from '../utils';
+import { logger, telegramService } from '../index.service';
+import { TransactionModel } from '@/models';
+import { balancerVault, signer } from '@/services/balancer.service';
+import { sleep } from '@/utils/common.util';
 
 export type PairPool = {
   poolIds: Array<string>;

@@ -1,5 +1,5 @@
-import pairArbitrageService from './pairArbitrage.service';
-import triangleArbitrageService from './triangleArbitrage.service';
+import pairArbitrageService from './pair.arbitrage';
+import triangleArbitrageService from './triangle.arbitrage';
 
 const arbitrageService = {
   start: async () => {

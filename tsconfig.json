@@ -6,6 +6,10 @@
     "resolveJsonModule": true,
     "moduleResolution": "node",
     "sourceMap": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"]
+    },
     "outDir": "dist"
   },
   "lib": ["es2020"]

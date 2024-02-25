@@ -1,5 +1,5 @@
-import { configurationService, logger } from '../services';
-import CONFIG from '../services/config';
+import { configurationService, logger } from '@/services/index.service';
+import CONFIG from '@/services/config';
 import sequelize from './connection';
 
 export { default as ConfigurationModel } from './configuration';

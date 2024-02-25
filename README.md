@@ -4,7 +4,7 @@ Diagram: <https://www.planttext.com/api/plantuml/png/pLN1Rjim3BtdAmYVDg05qXs3eMZ
 
 # How to start
 
-Should change .env value and config.json file to run
+Should change .env value and src/pairs.json file to run
 
 # How to find pair tokens
 

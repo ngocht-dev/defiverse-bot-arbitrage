@@ -1,8 +1,8 @@
 import TelegramBot from 'node-telegram-bot-api';
-import { TelegramHistoryModel } from '../models';
-import { logger } from './logger.service';
-import arbitrageService from './arbitrage.service';
-import configurationService from './configuration.service';
+import { TelegramHistoryModel } from '@/models';
+import { logger } from '@/services/logger.service';
+import arbitrageService from '@/services/arbitrage/index.arbitrage';
+import configurationService from '@/services/configuration.service';
 
 class Telegram {
   private bot: TelegramBot;

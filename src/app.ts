@@ -3,8 +3,8 @@ import bodyParser from 'body-parser';
 import cors from 'cors';
 import helmet from 'helmet';
 import morgan from 'morgan';
-import { logger } from './services';
-import CONFIG from './services/config';
+import { logger } from '@/services/index.service';
+import CONFIG from '@/services/config';
 
 const app = express();
 app.use(helmet());

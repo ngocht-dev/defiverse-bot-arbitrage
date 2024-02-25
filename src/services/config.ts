@@ -1,4 +1,4 @@
-import config from '../../config.json';
+import config from '@/pairs.json';
 
 const validateField = (fieldName: string, value: string | number) => {
   if (!value) {
@@ -11,6 +11,8 @@ validateField('process.env.SIGNER_PRIVATE_KEY', process.env.SIGNER_PRIVATE_KEY);
 validateField('process.env.TELEGRAM_TOKEN', process.env.TELEGRAM_TOKEN);
 validateField('process.env.DB_URI', process.env.DB_URI);
 validateField('process.env.PORT', process.env.PORT);
+validateField('process.env.VAULT_SC_ADDRESS', process.env.VAULT_SC_ADDRESS);
+validateField('process.env.NETWORK', process.env.NETWORK);
 
 const CONFIG = {
   ...config,
@@ -20,6 +22,8 @@ const CONFIG = {
   INFURA: process.env.INFURA,
   SIGNER_PRIVATE_KEY: process.env.SIGNER_PRIVATE_KEY,
   SIGNER_ADDRESS: process.env.SIGNER_ADDRESS,
+  VAULT: process.env.VAULT_SC_ADDRESS,
+  NETWORK: process.env.NETWORK,
 };
 
 export default CONFIG;

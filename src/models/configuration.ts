@@ -6,7 +6,7 @@
  */
 import { Model, DataTypes } from 'sequelize';
 
-import sequelize from './connection';
+import sequelize from '@/models/connection';
 
 export class Configuration extends Model {
   declare id: number;

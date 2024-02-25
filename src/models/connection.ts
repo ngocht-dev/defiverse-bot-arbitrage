@@ -1,5 +1,5 @@
 import { Sequelize } from 'sequelize';
-import CONFIG from '../services/config';
+import CONFIG from '@/services/config';
 
 const sequelize = new Sequelize(CONFIG.DB_URI);
 

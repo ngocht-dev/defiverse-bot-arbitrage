@@ -1,6 +1,6 @@
-import { cacheService } from '.';
-import { ConfigurationModel } from '../models';
-import Configuration from '../models/configuration';
+import { cacheService } from './index.service';
+import { ConfigurationModel } from '@/models';
+import Configuration from '@/models/configuration';
 
 class ConfigurationService {
   private configurationCacheKey: string = 'arbitrage.config.cache';

@@ -1,9 +1,9 @@
-import { QuerySimpleFlashSwapResponse, Swaps } from '@balancer-labs/sdk';
+import { QuerySimpleFlashSwapResponse, Swaps } from '@defiverse/balancer-sdk';
 import lockfile from 'lockfile';
-import { configurationService, logger } from '..';
-import { Arbitrage, PairPool } from './arbitrage';
-import { balancer, getPoolByPoolId, signerAddress } from '../balancer.service';
-import CONFIG from '../config';
+import { configurationService, logger } from '@/services/index.service';
+import { Arbitrage, PairPool } from './base.arbitrage';
+import { balancer, getPoolByPoolId, signerAddress } from '@/services/balancer.service';
+import CONFIG from '@/services/config';
 
 class PairArbitrage extends Arbitrage {
   protected lockedFilePath: string = 'pair.arbitrage.lock';
