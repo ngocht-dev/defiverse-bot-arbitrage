@@ -1,0 +1,6 @@
+node_modules
+dist
+.env
+arbitrage.lock
+triangle.arbitrage.lock
+pair.arbitrage.lock
