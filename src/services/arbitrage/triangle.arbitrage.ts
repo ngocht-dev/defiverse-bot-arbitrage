@@ -45,7 +45,7 @@ class TriangleArbitrage extends Arbitrage {
       const pool3 = await getPoolByPoolId(pair.pairs[2]);
 
       const [symbol1, symbol2, symbol3] = pair.symbols.split('-');
-      
+
       const token1 = pool1.tokens[this.getAssetIndex(pool1, symbol1)];
       const token2 = pool2.tokens[this.getAssetIndex(pool2, symbol2)];
       const token3 = pool3.tokens[this.getAssetIndex(pool3, symbol3)];
@@ -91,26 +91,23 @@ class TriangleArbitrage extends Arbitrage {
 
       const profit = await this.getProfit(data);
 
-      const config = await configurationService.getConfig();
-
+      console.log('profit: ', pair.symbols, profit);
       const isGreatThanMinProfit = new BigNumber(profit.profit).gte(
-        pair.minProfit,
+        new BigNumber(pair.minProfit).multipliedBy(
+          new BigNumber(10).pow(token1.decimals),
+        ),
       );
 
       if (profit.isProfitable && isGreatThanMinProfit) {
         logger.info(
-          `Expected: Pair ${token1.symbol}-${token2.symbol} has profit ${profit.profit}`,
+          `Expected: Pair ${pair.symbols} has profit ${profit.profit}`,
         );
         const tx = await this.trade({
           ...data,
           profit,
         });
         if (tx) {
-          await this.recordTransaction(
-            `${token1.symbol}-${token2.symbol}`,
-            profit.profit,
-            tx,
-          );
+          await this.recordTransaction(`${pair.symbols}`, profit.profit, tx);
         }
       }
     } catch (error) {
@@ -156,38 +153,43 @@ class TriangleArbitrage extends Arbitrage {
       const steps = [...Array(CONFIG.TRIANGLE_ARBITRAGE.RETRY).keys()];
 
       for (const step of steps) {
-        swaps[0].amount = new BigNumber(swaps[0].amount)
-          .plus(new BigNumber(milestone).multipliedBy(step))
-          .toString();
+        try {
+          swaps[0].amount = new BigNumber(swaps[0].amount)
+            .plus(new BigNumber(milestone).multipliedBy(step))
+            .toString();
 
-        const deltas = await balancer.contracts.vault.callStatic.queryBatchSwap(
-          kind,
-          swaps,
-          assets,
-          funds as any,
-        );
+          const deltas =
+            await balancer.contracts.vault.callStatic.queryBatchSwap(
+              kind,
+              swaps,
+              assets,
+              funds as any,
+            );
 
-        const profits = {
-          [assets[0]]: this.deltaToExpectedProfit(
-            deltas[0].toString(),
-          ).toString(),
-          [assets[1]]: this.deltaToExpectedProfit(
-            deltas[1].toString(),
-          ).toString(),
-          [assets[2]]: this.deltaToExpectedProfit(
-            deltas[2].toString(),
-          ).toString(),
-        };
+          const profits = {
+            [assets[0]]: this.deltaToExpectedProfit(
+              deltas[0].toString(),
+            ).toString(),
+            [assets[1]]: this.deltaToExpectedProfit(
+              deltas[1].toString(),
+            ).toString(),
+            [assets[2]]: this.deltaToExpectedProfit(
+              deltas[2].toString(),
+            ).toString(),
+          };
 
-        const profit = this.calcProfit([
-          profits[assets[0]],
-          profits[assets[1]],
-          profits[assets[2]],
-        ]);
+          const profit = this.calcProfit([
+            profits[assets[0]],
+            profits[assets[1]],
+            profits[assets[2]],
+          ]);
 
-        if (profit > results.profit) {
-          results.profit = profit;
-          results.profits = profits;
+          if (profit > results.profit) {
+            results.profit = profit;
+            results.profits = profits;
+          }
+        } catch (error) {
+          logger.error(error, `${this.name}.getProfit => amount: ${swaps[0].amount}`);
         }
       }
 

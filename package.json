@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "jest",
-    "start:dev": "nodemon --watch 'src/**' --ext 'ts,json' --ignore 'src/**/*.spec.ts' --exec 'ts-node src/index.ts'",
+    "start:dev": "nodemon",
     "start": "tsc && node dist/index.js",
     "scan-arbitrage": "nodemon --watch 'src/**' --ext 'ts,json' --ignore 'src/**/*.spec.ts' --exec 'ts-node src/scanArbitrage.ts'",
     "lint": "eslint . --ext .ts"
@@ -24,6 +24,7 @@
     "nodemon": "^3.0.3",
     "prettier": "^3.2.2",
     "ts-node": "^10.9.2",
+    "tsconfig-paths": "^4.2.0",
     "typescript": "^5.3.3"
   },
   "dependencies": {

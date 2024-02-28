@@ -38,6 +38,171 @@
           "0x26cdeaf40cf9a83bb7436b560d150c1d5d98b87900020000000000000000000a",
           "0xaa01a32965a072082dac7169b4c9457ce1508be5000200000000000000000001"
         ]
+      },
+      {
+        "minProfit": 2,
+        "milestone": 0.5,
+        "minAmount": 0.1,
+        "symbols": "USDT-GDT-WOAS",
+        "pairs": [
+          "0x4ae1038376b444118a7e1ce18fb81b3ddb47e77700020000000000000000001a",
+          "0xaa01a32965a072082dac7169b4c9457ce1508be5000200000000000000000001",
+          "0x6797e1bc05285c51127bb9760d0a2df57bf6f0f0000200000000000000000003"
+        ]
+      },
+      {
+        "minProfit": 2,
+        "milestone": 0.5,
+        "minAmount": 0.1,
+        "symbols": "GDT-WOAS-USDT",
+        "pairs": [
+          "0xaa01a32965a072082dac7169b4c9457ce1508be5000200000000000000000001",
+          "0x6797e1bc05285c51127bb9760d0a2df57bf6f0f0000200000000000000000003",
+          "0x4ae1038376b444118a7e1ce18fb81b3ddb47e77700020000000000000000001a"
+        ]
+      },
+      {
+        "minProfit": 2,
+        "milestone": 0.5,
+        "minAmount": 0.1,
+        "symbols": "WOAS-USDT-GDT",
+        "pairs": [
+          "0x6797e1bc05285c51127bb9760d0a2df57bf6f0f0000200000000000000000003",
+          "0x4ae1038376b444118a7e1ce18fb81b3ddb47e77700020000000000000000001a",
+          "0xaa01a32965a072082dac7169b4c9457ce1508be5000200000000000000000001"
+        ]
+      },
+      {
+        "minProfit": 2,
+        "milestone": 0.5,
+        "minAmount": 0.1,
+        "symbols": "USDT-WBTC-WOAS",
+        "pairs": [
+          "0x7d4f04ac7173479e520fc8aabfaa9a58bb1eeeab000200000000000000000016",
+          "0xbaf0f0499bc5530e2b6181e22567415f793a3d0b000200000000000000000005",
+          "0x6797e1bc05285c51127bb9760d0a2df57bf6f0f0000200000000000000000003"
+        ]
+      },
+      {
+        "minProfit": 0.0005,
+        "milestone": 0.005,
+        "minAmount": 0.001,
+        "symbols": "WBTC-WOAS-USDT",
+        "pairs": [
+          "0xbaf0f0499bc5530e2b6181e22567415f793a3d0b000200000000000000000005",
+          "0x6797e1bc05285c51127bb9760d0a2df57bf6f0f0000200000000000000000003",
+          "0x7d4f04ac7173479e520fc8aabfaa9a58bb1eeeab000200000000000000000016"
+        ]
+      },
+      {
+        "minProfit": 2,
+        "milestone": 0.5,
+        "minAmount": 0.1,
+        "symbols": "WOAS-USDT-WBTC",
+        "pairs": [
+          "0x6797e1bc05285c51127bb9760d0a2df57bf6f0f0000200000000000000000003",
+          "0x7d4f04ac7173479e520fc8aabfaa9a58bb1eeeab000200000000000000000016",
+          "0xbaf0f0499bc5530e2b6181e22567415f793a3d0b000200000000000000000005"
+        ]
+      },
+      {
+        "minProfit": 2,
+        "milestone": 0.5,
+        "minAmount": 0.1,
+        "symbols": "USDT-ETH-WOAS",
+        "pairs": [
+          "0xa7dbc709bb7e86ded763dff68b8c73c283ebd636000200000000000000000018",
+          "0x1790e0239029532a8095e78a2ff57ab118e57bf5000200000000000000000017",
+          "0x6797e1bc05285c51127bb9760d0a2df57bf6f0f0000200000000000000000003"
+        ]
+      },
+      {
+        "minProfit": 0.00005,
+        "milestone": 0.0005,
+        "minAmount": 0.0001,
+        "symbols": "ETH-WOAS-USDT",
+        "pairs": [
+          "0x1790e0239029532a8095e78a2ff57ab118e57bf5000200000000000000000017",
+          "0x6797e1bc05285c51127bb9760d0a2df57bf6f0f0000200000000000000000003",
+          "0xa7dbc709bb7e86ded763dff68b8c73c283ebd636000200000000000000000018"
+        ]
+      },
+      {
+        "minProfit": 2,
+        "milestone": 0.5,
+        "minAmount": 0.1,
+        "symbols": "WOAS-USDT-ETH",
+        "pairs": [
+          "0x6797e1bc05285c51127bb9760d0a2df57bf6f0f0000200000000000000000003",
+          "0xa7dbc709bb7e86ded763dff68b8c73c283ebd636000200000000000000000018",
+          "0x1790e0239029532a8095e78a2ff57ab118e57bf5000200000000000000000017"
+        ]
+      },
+      {
+        "minProfit": 2,
+        "milestone": 0.5,
+        "minAmount": 0.1,
+        "symbols": "USDC-WBTC-WOAS",
+        "pairs": [
+          "0x0ba7fd4626bf60dceb29d5abf224e744e5ec16e8000200000000000000000019",
+          "0xbaf0f0499bc5530e2b6181e22567415f793a3d0b000200000000000000000005",
+          "0xe815154dc2bb9cceee8054b01e99850b2a8c0d1e000200000000000000000002"
+        ]
+      },
+      {
+        "minProfit": 0.0005,
+        "milestone": 0.0005,
+        "minAmount": 0.0001,
+        "symbols": "WBTC-WOAS-USDC",
+        "pairs": [
+          "0xbaf0f0499bc5530e2b6181e22567415f793a3d0b000200000000000000000005",
+          "0xe815154dc2bb9cceee8054b01e99850b2a8c0d1e000200000000000000000002",
+          "0x0ba7fd4626bf60dceb29d5abf224e744e5ec16e8000200000000000000000019"
+        ]
+      },
+      {
+        "minProfit": 2,
+        "milestone": 0.5,
+        "minAmount": 0.1,
+        "symbols": "WOAS-USDC-WBTC",
+        "pairs": [
+          "0xe815154dc2bb9cceee8054b01e99850b2a8c0d1e000200000000000000000002",
+          "0x0ba7fd4626bf60dceb29d5abf224e744e5ec16e8000200000000000000000019",
+          "0xbaf0f0499bc5530e2b6181e22567415f793a3d0b000200000000000000000005"
+        ]
+      },
+      {
+        "minProfit": 2,
+        "milestone": 0.5,
+        "minAmount": 0.1,
+        "symbols": "USDC-ETH-WOAS",
+        "pairs": [
+          "0x229cd3ba52f8c3a8d7012b3f60e7c4b2681c89fc000200000000000000000015",
+          "0x1790e0239029532a8095e78a2ff57ab118e57bf5000200000000000000000017",
+          "0xe815154dc2bb9cceee8054b01e99850b2a8c0d1e000200000000000000000002"
+        ]
+      },
+      {
+        "minProfit": 0.00005,
+        "milestone": 0.0005,
+        "minAmount": 0.0001,
+        "symbols": "ETH-WOAS-USDC",
+        "pairs": [
+          "0x1790e0239029532a8095e78a2ff57ab118e57bf5000200000000000000000017",
+          "0xe815154dc2bb9cceee8054b01e99850b2a8c0d1e000200000000000000000002",
+          "0x229cd3ba52f8c3a8d7012b3f60e7c4b2681c89fc000200000000000000000015"
+        ]
+      },
+      {
+        "minProfit": 2,
+        "milestone": 0.5,
+        "minAmount": 0.1,
+        "symbols": "WOAS-USDC-ETH",
+        "pairs": [
+          "0xe815154dc2bb9cceee8054b01e99850b2a8c0d1e000200000000000000000002",
+          "0x229cd3ba52f8c3a8d7012b3f60e7c4b2681c89fc000200000000000000000015",
+          "0x1790e0239029532a8095e78a2ff57ab118e57bf5000200000000000000000017"
+        ]
       }
     ]
   }
